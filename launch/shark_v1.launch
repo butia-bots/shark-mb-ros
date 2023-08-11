@@ -1,0 +1,26 @@
+<launch>
+    <arg name="output" default="screen"/>
+    <arg name="use_rviz" default="true"/>
+
+    <include file="$(find shark-mb-ros)/launch/shark_v1_description.launch"/>
+
+    <include file="$(find hoverboard_driver)/launch/hoverboard.launch"/>
+
+    <node pkg="urg_node" type="urg_node" name="urg_node" output="$(arg output)">
+        <param name="frame_id" value="hokuyo_link"/>
+        <param name="serial_port" value="/dev/ttyACM0"/> 
+        <param name="angle_min" type="double" value="-0.7" />
+        <param name="angle_max" type="double" value="0.7" />
+    </node>
+
+    <remap from="/cmd_vel" to="/hoverboard_velocity_controller/cmd_vel"/>
+
+    <include file="$(find teleop_twist_joy)/launch/teleop.launch">
+        <agr name="joy_config" value="atk3"/>
+    </include>
+    
+    <group if="$(arg use_rviz)">
+        <node name="rviz" pkg="rviz" type="rviz" args="-d $(find shark-mb-ros)/rviz/base.rviz" output="$(arg output)"/>
+    </group>
+
+</launch>
