@@ -16,7 +16,7 @@
     <remap from="/cmd_vel" to="/hoverboard_velocity_controller/cmd_vel"/>
 
     <include file="$(find teleop_twist_joy)/launch/teleop.launch">
-        <agr name="joy_config" value="atk3"/>
+        <arg name="joy_config" value="atk3"/>
     </include>
     
     <group if="$(arg use_rviz)">
