@@ -4,7 +4,7 @@
         <arg name="use_rviz" value="false" />
     </include>
 
-    <arg name="map" default="$(find shark-mb-ros)/maps/mapa_lab.yaml" />
+    <arg name="map" default="$(find shark-mb-ros)/maps/first.yaml" />
     <node name="map_server" pkg="map_server" type="map_server" args="$(arg map)"
         output="$(arg output)" />
 
@@ -13,7 +13,7 @@
     </include>
 
     <arg name="cmd_vel" default="/hoverboard_velocity_controller/cmd_vel" />
-    <arg name="odom" default="/RosAria/pose" />
+    <arg name="odom" default="/odom" />
     <arg name="unknown_map" default="false" />
     <arg name="observation_sources" default="ground_scan" />
 

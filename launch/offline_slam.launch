@@ -13,7 +13,7 @@
         <param name="lskip" value="10"/>
         <param name="linearUpdate" value="1.0"/>
         <param name="angularUpdate" value="0.5"/>
-        <param name="maxRange" value="3.5"/>
+        <param name="maxRange" value="12.0"/>
     </node>
     
     <node name="rviz" pkg="rviz" type="rviz" args="-d $(find shark-mb-ros)/rviz/slam.rviz" output="$(arg output)"/>
