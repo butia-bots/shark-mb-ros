@@ -46,7 +46,7 @@
   </xacro:macro>
 
   <link name="base_footprint">
-    <xacro:box_inertia m="8" w="0.001" h="0.001" d="0.001"/>
+    <!-- <xacro:box_inertia m="8" w="0.001" h="0.001" d="0.001"/> -->
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <material name="white"/>
@@ -144,6 +144,6 @@
     <origin xyz="${caster_wheel_joint_offset} 0 -${0.06+caster_wheel_radius}" rpy="0 0 0"/>
   </joint> -->
 
-  <xacro:sensor_hokuyo parent="base_link" xyz="${base_len/2 + 0.025 + 0.0159} 0 ${0.02 - base_height/2}" rpy="0 0 0" />
+  <xacro:sensor_hokuyo parent="base_link" xyz="${base_len/2 + 0.025 + 0.0159} 0 ${0.02 - base_height/2}" rpy="3.14 0 0" />
 
 </robot>
