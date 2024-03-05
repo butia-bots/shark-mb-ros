@@ -12,6 +12,8 @@
         <arg name="output" value="$(arg output)" />
     </include>
 
+    <include file="$(find shark-mb-ros)/config/ekf.launch.xml"/>
+
     <arg name="cmd_vel" default="/hoverboard_velocity_controller/cmd_vel" />
     <arg name="odom" default="/odom" />
     <arg name="unknown_map" default="false" />
