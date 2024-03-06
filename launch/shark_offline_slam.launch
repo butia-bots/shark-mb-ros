@@ -1,0 +1,13 @@
+<launch>
+    <arg name="output" default="screen"/>
+
+    <include file="$(find shark-mb-ros)/launch/shark_v1.launch">
+        <arg name="use_rviz" value="false"/>
+    </include>
+
+    <include file="$(find shark-mb-ros)/config/gmapping.launch.xml"/>
+
+    <include file="$(find shark-mb-ros)/config/urg.launch.xml"/>
+    
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find shark-mb-ros)/rviz/slam.rviz" output="$(arg output)"/>
+</launch>
