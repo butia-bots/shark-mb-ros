@@ -17,7 +17,9 @@
     <param name="odom_alpha4" value="0.2"/>
     <param name="initial_pose_y" value="0"/>
     <param name="initial_pose_x" value="0"/>
+    <param name="initial_pose_z" value="0"/>
     <param name="resample_interval" value="1"/>
+    <param name="base_frame_id" value="base_footprint"/>
 
     <remap from="scan" to="$(arg scan_topic)"/>
   </node>

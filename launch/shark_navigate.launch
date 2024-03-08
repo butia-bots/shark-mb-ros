@@ -17,7 +17,7 @@
     <arg name="cmd_vel" default="/hoverboard_velocity_controller/cmd_vel" />
     <arg name="odom" default="/odom" />
     <arg name="unknown_map" default="false" />
-    <arg name="observation_sources" default="ground_scan" />
+    <arg name="observation_sources" default="ground_scan ground_scan_back" />
 
     <include file="$(find shark-mb-ros)/config/move_base.launch.xml">
         <arg name="cmd_vel_topic" value="$(arg cmd_vel)" />

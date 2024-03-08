@@ -4,6 +4,7 @@ Panels:
     Name: Displays
     Property Tree Widget:
       Expanded:
+        - /TF1
         - /TF1/Frames1
       Splitter Ratio: 0.5
     Tree Height: 347
@@ -64,13 +65,17 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-          Value: true
         base_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        hokuyo_link:
+        hokuyo_back_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        hokuyo_front_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -99,17 +104,19 @@ Visualization Manager:
       Frames:
         All Enabled: false
         base_footprint:
-          Value: true
-        base_link:
           Value: false
-        hokuyo_link:
+        base_link:
+          Value: true
+        hokuyo_back_link:
+          Value: false
+        hokuyo_front_link:
           Value: true
         left_wheel:
           Value: false
         map:
-          Value: true
+          Value: false
         odom:
-          Value: true
+          Value: false
         right_wheel:
           Value: false
       Marker Alpha: 1
@@ -123,7 +130,9 @@ Visualization Manager:
           odom:
             base_footprint:
               base_link:
-                hokuyo_link:
+                hokuyo_back_link:
+                  {}
+                hokuyo_front_link:
                   {}
                 left_wheel:
                   {}
@@ -265,7 +274,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 9.038620948791504
+      Distance: 1.4375030994415283
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -273,17 +282,17 @@ Visualization Manager:
         Value: false
       Field of View: 0.7853981852531433
       Focal Point:
-        X: 0.5411162376403809
-        Y: -0.8535214066505432
-        Z: 0.11383364349603653
+        X: -0.21115779876708984
+        Y: -0.5293598175048828
+        Z: -0.24328720569610596
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 1.5697963237762451
+      Pitch: 0.22979648411273956
       Target Frame: <Fixed Frame>
-      Yaw: 3.1953842639923096
+      Yaw: 1.1153852939605713
     Saved: ~
 Window Geometry:
   Displays:
