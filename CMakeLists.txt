@@ -15,10 +15,17 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
+
 # find dependencies
 find_package(ament_cmake REQUIRED)
-find_package(ament_cmake_python REQUIRED)
-find_package(rclpy REQUIRED)
+# uncomment the following section in order to fill in
+# further dependencies manually.
+# find_package(<dependency> REQUIRED)
+
+install( DIRECTORY launch/
+         DESTINATION share/${PROJECT_NAME}/launch) 
+install( DIRECTORY config/
+         DESTINATION share/${PROJECT_NAME}/config) 
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
@@ -30,35 +37,5 @@ if(BUILD_TESTING)
   #set(ament_cmake_cpplint_FOUND TRUE)
   ament_lint_auto_find_test_dependencies()
 endif()
-
-install(
-  PROGRAMS
-  scripts/distance_publisher.py
-  scripts/distance_subscriber.py
-  DESTINATION lib/${PROJECT_NAME}
-)
-
-ament_python_install_package(${PROJECT_NAME})
-
-install(
-  DIRECTORY
-    launch
-    rviz
-    worlds
-    src
-    models
-    config
-  DESTINATION
-    share/${PROJECT_NAME}/
-)
-
-install(PROGRAMS scripts/pub.py
-  DESTINATION lib/${PROJECT_NAME})
-
-install(PROGRAMS scripts/stereo_frame_pub.py
-  DESTINATION lib/${PROJECT_NAME})
-
-install(PROGRAMS src/teleop_keyboard.py
-  DESTINATION lib/${PROJECT_NAME})
 
 ament_package()
