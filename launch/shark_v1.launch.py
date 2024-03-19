@@ -15,7 +15,7 @@ def generate_launch_description():
     )
 
     # Get package directories
-    shark_mb_ros_pkg = get_package_share_directory('shark_mb_ros')
+    shark_mb_ros_pkg = get_package_share_directory('shark-mb-ros')
     hoverboard_driver_pkg = get_package_share_directory('hoverboard_driver')
     teleop_twist_joy_pkg = get_package_share_directory('teleop_twist_joy')
 
@@ -28,7 +28,7 @@ def generate_launch_description():
 
     hoverboard_driver = Node(
         package='hoverboard_driver',
-        executable='hoverboard',
+        executable='hoverboard_driver_node',
         name='hoverboard_driver'
     )
 
