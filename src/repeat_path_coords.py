@@ -57,8 +57,6 @@ class Navigator:
         self.yaw_d = np.arctan2(self.dist_vec[1], self.dist_vec[0])
         self.diff_yaw = self.yaw_d - self.yaw
 
-        # print("Goals", self.goals)
-    
         if self.diff_yaw > self.THRESHOLD_YAW:
             msg.linear.x = .0
             msg.angular.z = .1
@@ -66,7 +64,7 @@ class Navigator:
             msg.linear.x = .0
             msg.angular.z = -.1
         else:
-            msg.linear.x = .5
+            msg.linear.x = .1
             msg.angular.z = .0
 
         self.cmd_vel_pub.publish(msg)
@@ -92,4 +90,3 @@ if __name__ == '__main__':
     navigator.amcl_y = msg.pose.pose.position.y
     while True:
         navigator.execute()
-        # rospy.spin()
