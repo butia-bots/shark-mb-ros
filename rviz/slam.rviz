@@ -4,7 +4,6 @@ Panels:
     Name: Displays
     Property Tree Widget:
       Expanded:
-        - /TF1
         - /TF1/Frames1
       Splitter Ratio: 0.5
     Tree Height: 347
@@ -65,6 +64,7 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
+          Value: true
         base_link:
           Alpha: 1
           Show Axes: false
@@ -240,8 +240,32 @@ Visualization Manager:
       Value: true
     - Class: rviz/Marker
       Enabled: true
-      Marker Topic: /visualization_marker
-      Name: Marker
+      Marker Topic: /bezier_curve_marker
+      Name: BezierCurveMarker
+      Namespaces:
+        {}
+      Queue Size: 100
+      Value: true
+    - Class: rviz/Marker
+      Enabled: true
+      Marker Topic: /bezier_points_marker
+      Name: BezierPointsMarker
+      Namespaces:
+        {}
+      Queue Size: 100
+      Value: true
+    - Class: rviz/Marker
+      Enabled: true
+      Marker Topic: /lookahead_paths_marker
+      Name: LookaheadPathsMarker
+      Namespaces:
+        {}
+      Queue Size: 100
+      Value: true
+    - Class: rviz/Marker
+      Enabled: true
+      Marker Topic: /selected_lookahead_path_marker
+      Name: SelectedLookaheadPathMarker
       Namespaces:
         {}
       Queue Size: 100
@@ -274,7 +298,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 1.4375030994415283
+      Distance: 8.391630172729492
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -282,17 +306,17 @@ Visualization Manager:
         Value: false
       Field of View: 0.7853981852531433
       Focal Point:
-        X: -0.21115779876708984
-        Y: -0.5293598175048828
-        Z: -0.24328720569610596
+        X: 0.9799550175666809
+        Y: -0.9562706351280212
+        Z: -1.4026027917861938
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.22979648411273956
+      Pitch: 0.7097963094711304
       Target Frame: <Fixed Frame>
-      Yaw: 1.1153852939605713
+      Yaw: 0.32038557529449463
     Saved: ~
 Window Geometry:
   Displays:

@@ -4,6 +4,8 @@ import sys
 import time
 import numpy as np
 
+sys.path.insert(1, 'src/PiecewiseG1BezierFitPython/scripts')
+
 import rospy
 from nav_msgs.msg import Odometry
 from visualization_msgs.msg import Marker
@@ -16,7 +18,7 @@ from compare_paths import compare_paths
 from calculate_erro import calculate_erro
 from points_at_interval import points_at_interval
 from save_coords_to_file import save_coords_to_file
-from tf_transformations import euler_from_quaternion
+from tf.transformations import euler_from_quaternion
 from generate_bezier_curve import generate_bezier_curve
 from read_coords_from_file import read_points_from_file
 from save_variables_to_file import save_variables_to_file
@@ -28,26 +30,26 @@ class RepeatBezierPath():
     def __init__(self):
         rospy.init_node('repeat_bezier_path')
 
-        self.bezier_curve_marker_pub = rospy.Publisher(Marker, 'bezier_curve_marker', 10)
-        self.bezier_points_marker_pub = rospy.Publisher(Marker, 'bezier_points_marker', 10)
-        self.lookahead_paths_marker_pub = rospy.Publisher(Marker, 'lookahead_paths_marker', 10)
-        self.selected_lookahead_path_marker_pub = rospy.Publisher(Marker, 'selected_lookahead_path_marker', 10)
+        self.bezier_curve_marker_pub = rospy.Publisher('bezier_curve_marker', Marker, queue_size=10)
+        self.bezier_points_marker_pub = rospy.Publisher('bezier_points_marker', Marker, queue_size=10)
+        self.lookahead_paths_marker_pub = rospy.Publisher('lookahead_paths_marker', Marker, queue_size=10)
+        self.selected_lookahead_path_marker_pub = rospy.Publisher('selected_lookahead_path_marker', Marker, queue_size=10)
 
-        self.cmd_vel_pub = rospy.Publisher(Twist, '/hoverboard_velocity_controller/cmd_vel', 10)
+        self.cmd_vel_pub = rospy.Publisher('/hoverboard_velocity_controller/cmd_vel', Twist, queue_size=10)
 
-        self.odom_sub = rospy.Subscriber(PoseWithCovarianceStamped, '/amcl_pose', self.callback_odometry, 10)
+        self.odom_sub = rospy.Subscriber('/amcl_pose', PoseWithCovarianceStamped, self.callback_odometry, queue_size=10)
 
         # Variáveis que podem ser alteradas abaixo
         # Frame id markers
         frame_id = 'map'
 
         # Tractor configuration
-        self.tyre_radius = 0.14260
+        self.tyre_radius = 0.1016
         self.max_steering = 1.0
         self.min_steering = -1.0
         self.tractor_angle = 0.0
         self.tractor_velocity = 0.2
-        self.tractor_wheelbase = 1.04
+        self.tractor_wheelbase = 0.39
 
         # threshold_dist btw tractor and coord
         self.threshold_dist = 0.6
@@ -137,7 +139,7 @@ class RepeatBezierPath():
 
         # Define número inicial de knots para a curva
         # de Bézier.
-        self.start_num_knots = 1200
+        self.start_num_knots = 10
         
         # Retorna os pontos de controle para os pontos
         # enviados.
@@ -187,7 +189,7 @@ class RepeatBezierPath():
 
         self.coords_during_following.append(point)
 
-        self.update()
+        # self.update()
 
     def update(self):
         msg = Twist()
@@ -228,8 +230,15 @@ class RepeatBezierPath():
                 # que o veiculo deve seguir
                 self.best_lookahead_path = lookahead_path_points
 
-        msg.linear.x = self.tractor_velocity
-        msg.angular.z = self.desired_steering_angle
+        if self.diff_yaw > self.THRESHOLD_YAW:
+            msg.linear.x = .0
+            msg.angular.z = .1
+        elif self.diff_yaw < -self.THRESHOLD_YAW:
+            msg.linear.x = .0
+            msg.angular.z = -.1
+        else:
+            msg.linear.x = .1
+            msg.angular.z = .0
 
         self.cmd_vel_pub.publish(msg)
 
@@ -323,10 +332,10 @@ class RepeatBezierPath():
 
         # self.cmd_vel_pub.publish(msg)
 
-        self.lookahead_updated.clear()
-        self.selected_lookahead_path_marker.points = []
-        self.lookahead_paths_marker.points = []
-        self.bezier_points_marker.points = []
+        # self.lookahead_updated.clear()
+        # self.selected_lookahead_path_marker.points = []
+        # self.lookahead_paths_marker.points = []
+        # self.bezier_points_marker.points = []
 
     def generate_lookahead(self):
         dt = 1.0 / self.sim_steps
@@ -365,7 +374,6 @@ class RepeatBezierPath():
         self.bezier_curve_marker_pub.publish(self.bezier_curve_marker)
 
 if __name__ == '__main__':
-    rospy.init_node('RepeatBezierPath')
     navigator = RepeatBezierPath()
     msg : PoseWithCovarianceStamped = rospy.wait_for_message('/initialpose', PoseWithCovarianceStamped)
     navigator.quaternion = msg.pose.pose.orientation
