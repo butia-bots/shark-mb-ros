@@ -14,7 +14,6 @@ from geometry_msgs.msg import Point, Twist, PoseWithCovarianceStamped
 from copy_file import copy_file
 from get_jacobian import get_jacobian 
 from BezierFitDemo import BezierFitDemo
-from compare_paths import compare_paths
 from calculate_erro import calculate_erro
 from points_at_interval import points_at_interval
 from save_coords_to_file import save_coords_to_file
@@ -46,6 +45,7 @@ class RepeatBezierPath():
         # Tractor configuration
         self.tyre_radius = 0.1016
         self.max_steering = 1.0
+        self.distance_btw_wheels = 0.36
         self.min_steering = -1.0
         self.tractor_angle = 0.0
         self.tractor_velocity = 0.2
@@ -230,21 +230,14 @@ class RepeatBezierPath():
                 # que o veiculo deve seguir
                 self.best_lookahead_path = lookahead_path_points
 
-        if self.diff_yaw > self.THRESHOLD_YAW:
-            msg.linear.x = .0
-            msg.angular.z = .1
-        elif self.diff_yaw < -self.THRESHOLD_YAW:
-            msg.linear.x = .0
-            msg.angular.z = -.1
-        else:
-            msg.linear.x = .1
-            msg.angular.z = .0
+        # msg.linear.x = self.tractor_velocity
+        # msg.angular.z = self.desired_steering_angle
+                
+        # Differential robot
+        # msg.linear.right_wheel = self.tractor_velocity + self.distance_btw_wheels * self.desired_steering_angle
+        # msg.linear.left_wheel = self.tractor_velocity - self.distance_btw_wheels * self.desired_steering_angle
 
         self.cmd_vel_pub.publish(msg)
-
-        # q = [self.x, self.y, self.steering_angle, self.tractor_yaw]
-
-        # j = get_jacobian(self.steering_angle, self.tractor_yaw, self.tractor_wheelbase, self.tyre_radius)
 
         # Atribui para a variável os pontos a frente da curva de Bézier
         for p in self.bezier_few_points:
@@ -311,32 +304,6 @@ class RepeatBezierPath():
 
         self.selected_lookahead_path_marker_pub.publish(self.selected_lookahead_path_marker)
 
-        # Calcula a diferença entre o ângulo desejado e o ângulo do robô
-        # self.diff_yaw = self.desired_steering_angle - self.tractor_yaw
-
-        # Define uma baixa velocidade para o veiculo poder se mover
-        # nessa configuração de veiculo o angulo só gira a roda
-        # e não anda.
-        # msg.linear.x = self.tractor_velocity
-        # msg.angular.z = self.desired_steering_angle
-
-        # u = np.array([0.0, 0.0]).T
-
-        # q_dot = np.dot(j, u)
-        # q += q_dot * self.dt
-                    
-        # self.x = q[0]
-        # self.y = q[1]
-        # self.steering_angle = q[2]
-        # self.tractor_yaw = q[3]
-
-        # self.cmd_vel_pub.publish(msg)
-
-        # self.lookahead_updated.clear()
-        # self.selected_lookahead_path_marker.points = []
-        # self.lookahead_paths_marker.points = []
-        # self.bezier_points_marker.points = []
-
     def generate_lookahead(self):
         dt = 1.0 / self.sim_steps
         d = dict()
@@ -354,15 +321,14 @@ class RepeatBezierPath():
                 for _ in range(self.sim_steps):
                     step_dist = self.dist_btw_points/self.sim_steps
                     u = np.array([(step_dist / self.tyre_radius) / dt, 0.0])
-                    q = [x, y, steering_angle, tractor_yaw]
-                    j = get_jacobian(steering_angle, tractor_yaw, self.tractor_wheelbase, self.tyre_radius)
+                    q = [x, y, tractor_yaw]
+                    j = get_jacobian(tractor_yaw, self.tyre_radius)
                     q_dot = np.dot(j, u)
                     q += q_dot * dt
                     
                     x = q[0]
                     y = q[1]
-                    steering_angle = q[2]
-                    tractor_yaw = q[3]
+                    tractor_yaw = q[2]
         self.generated_lookahead = d
 
     def plot_bezier(self):
