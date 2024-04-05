@@ -4,7 +4,7 @@ import sys
 import time
 import numpy as np
 
-sys.path.insert(1, 'src/PiecewiseG1BezierFitPython/scripts')
+sys.path.insert(0, '/home/fbotathome/fbot_ws/src/shark-mb-ros/src/PiecewiseG1BezierFitPython/scripts/')
 
 import rospy
 from nav_msgs.msg import Odometry
@@ -14,6 +14,7 @@ from geometry_msgs.msg import Point, Twist, PoseWithCovarianceStamped
 from copy_file import copy_file
 from get_jacobian import get_jacobian 
 from BezierFitDemo import BezierFitDemo
+from compare_paths import compare_paths
 from calculate_erro import calculate_erro
 from points_at_interval import points_at_interval
 from save_coords_to_file import save_coords_to_file
@@ -61,7 +62,7 @@ class RepeatBezierPath():
         # Points Lookahead and Bézier Curves params
         self.points_per_paths = 15
         self.dist_btw_points = 0.2
-        self.lookahead_total_paths = 100
+        self.lookahead_total_paths = 20
 
         # Não alterar variáveis abaixo
         # Lookahead params
@@ -105,7 +106,7 @@ class RepeatBezierPath():
         self.bezier_curve_marker.type = Marker.LINE_STRIP
         self.bezier_curve_marker.action = Marker.ADD
         self.bezier_curve_marker.pose.orientation.w = 1.0
-        self.bezier_curve_marker.scale.x = 0.01
+        self.bezier_curve_marker.scale.x = 0.9
         self.bezier_curve_marker.scale.y = 0.1
         self.bezier_curve_marker.color.r = 1.0
         self.bezier_curve_marker.color.g = 0.0
@@ -128,18 +129,18 @@ class RepeatBezierPath():
         # Cria a pasta com data e horário e copia os arquivos
         # necessários para essa pasta
         base_to_create_folder = "data/"
-        path_folder_to_copy = "data/teleop_data.txt"
+        path_folder_to_copy = "/home/fbotathome/fbot_ws/src/shark-mb-ros/data/teleop_data.txt"
         self.folder_path = create_folder_with_datetime(base_to_create_folder)
         copy_file(path_folder_to_copy, self.folder_path)
 
         # Coleta dados de posição de quando o veiculo
         # foi teleoperado.
-        self.file_teleop_path = 'data/teleop_data.txt'
+        self.file_teleop_path = '/home/fbotathome/fbot_ws/src/shark-mb-ros/data/teleop_data.txt'
         teleop_path_points = read_points_from_file(self.file_teleop_path)
 
         # Define número inicial de knots para a curva
         # de Bézier.
-        self.start_num_knots = 10
+        self.start_num_knots = 15
         
         # Retorna os pontos de controle para os pontos
         # enviados.
@@ -234,8 +235,14 @@ class RepeatBezierPath():
         # msg.angular.z = self.desired_steering_angle
                 
         # Differential robot
-        # msg.linear.right_wheel = self.tractor_velocity + self.distance_btw_wheels * self.desired_steering_angle
-        # msg.linear.left_wheel = self.tractor_velocity - self.distance_btw_wheels * self.desired_steering_angle
+        # right_wheel = self.tractor_velocity + self.distance_btw_wheels * self.desired_steering_angle
+        # left_wheel = self.tractor_velocity - self.distance_btw_wheels * self.desired_steering_angle
+
+        left_wheel_speed =  0.2 - self.desired_steering_angle * self.distance_btw_wheels / 2
+        right_wheel_speed = 0.2 + self.desired_steering_angle * self.distance_btw_wheels / 2
+
+        msg.linear.x = (left_wheel_speed + right_wheel_speed) / 2.0  # Velocidade linear
+        msg.angular.z = (right_wheel_speed - left_wheel_speed) / self.distance_btw_wheels  # Velocidade angular
 
         self.cmd_vel_pub.publish(msg)
 
@@ -304,6 +311,11 @@ class RepeatBezierPath():
 
         self.selected_lookahead_path_marker_pub.publish(self.selected_lookahead_path_marker)
 
+        self.lookahead_updated.clear()
+        self.selected_lookahead_path_marker.points = []
+        self.lookahead_paths_marker.points = []
+        self.bezier_points_marker.points = []
+
     def generate_lookahead(self):
         dt = 1.0 / self.sim_steps
         d = dict()
@@ -311,16 +323,16 @@ class RepeatBezierPath():
         for steering_angle in np.linspace(self.min_steering, self.max_steering, self.lookahead_total_paths):
             x = 0.0
             y = 0.0
-            tractor_yaw = 0.0
+            tractor_yaw = 0.0 
             d[steering_angle] = list()
             # Para cada ponto de cada curva
             for _ in range(self.points_per_paths):
                 # Grava a coordenada atual
-                d[steering_angle].append((-x, -y))
+                d[steering_angle].append((y, x))
                 # Avança a distância definida
                 for _ in range(self.sim_steps):
                     step_dist = self.dist_btw_points/self.sim_steps
-                    u = np.array([(step_dist / self.tyre_radius) / dt, 0.0])
+                    u = np.array([(step_dist / self.tyre_radius) / dt, steering_angle])
                     q = [x, y, tractor_yaw]
                     j = get_jacobian(tractor_yaw, self.tyre_radius)
                     q_dot = np.dot(j, u)
