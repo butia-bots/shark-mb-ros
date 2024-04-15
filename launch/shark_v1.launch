@@ -6,25 +6,20 @@
 
     <include file="$(find hoverboard_driver)/launch/hoverboard.launch"/>
 
+    <include file="$(find shark-mb-ros)/config/imu.launch"/>
+
+    <include file="$(find shark-mb-ros)/config/ekf.launch.xml"/>
+
     <node pkg="urg_node" type="urg_node" name="urg_node_front" output="$(arg output)">
         <param name="frame_id" value="hokuyo_front_link"/>
         <param name="serial_port" value="/dev/tty_hokuyo_H1208745"/> 
-        <!-- <param name="serial_port" value="/dev/ttyACM1"/>  -->
-        <param name="angle_min" type="double" value="-0.7" />
-        <param name="angle_max" type="double" value="0.7" />
+        <param name="angle_min" type="double" value="-1.047" />
+        <param name="angle_max" type="double" value="1.047" />
+        <param name="intensity" value="true" />
     </node>
-    <node pkg="urg_node" type="urg_node" name="urg_node_back" output="$(arg output)">
-        <param name="frame_id" value="hokuyo_back_link"/>
-        <param name="serial_port" value="/dev/tty_hokuyo_H1309411"/> 
-        <!-- <param name="serial_port" value="/dev/ttyACM0"/>  -->
-        <param name="angle_min" type="double" value="-0.7" />
-        <param name="angle_max" type="double" value="0.7" />
-        <remap from="/scan" to="/scan2"/>
-    </node>
-
     <!-- <node pkg="urg_node" type="urg_node" name="urg_node_back" output="$(arg output)">
         <param name="frame_id" value="hokuyo_back_link"/>
-        <param name="serial_port" value="/dev/ttyURG0"/> 
+        <param name="serial_port" value="/dev/tty_hokuyo_H1309411"/> 
         <param name="angle_min" type="double" value="-0.7" />
         <param name="angle_max" type="double" value="0.7" />
     </node> -->
