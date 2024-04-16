@@ -37,23 +37,20 @@ class RepeatBezierPath():
 
         self.cmd_vel_pub = rospy.Publisher('/hoverboard_velocity_controller/cmd_vel', Twist, queue_size=10)
 
-        self.odom_sub = rospy.Subscriber('/amcl_pose', PoseWithCovarianceStamped, self.callback_odometry, queue_size=10)
-
         # Variáveis que podem ser alteradas abaixo
         # Frame id markers
-        frame_id = 'map'
+        frame_id = 'odom'
 
         # Tractor configuration
         self.tyre_radius = 0.1016
         self.max_steering = 1.0
-        self.distance_btw_wheels = 0.36
+        self.distance_btw_wheels = 0.4
         self.min_steering = -1.0
         self.tractor_angle = 0.0
         self.tractor_velocity = 0.2
-        self.tractor_wheelbase = 0.39
 
         # threshold_dist btw tractor and coord
-        self.threshold_dist = 0.6
+        self.threshold_dist = 0.65
 
         # Simulation
         self.dt = 0.01
@@ -61,8 +58,8 @@ class RepeatBezierPath():
         
         # Points Lookahead and Bézier Curves params
         self.points_per_paths = 15
-        self.dist_btw_points = 0.2
-        self.lookahead_total_paths = 20
+        self.dist_btw_points = 0.1
+        self.lookahead_total_paths = 100
 
         # Não alterar variáveis abaixo
         # Lookahead params
@@ -106,7 +103,7 @@ class RepeatBezierPath():
         self.bezier_curve_marker.type = Marker.LINE_STRIP
         self.bezier_curve_marker.action = Marker.ADD
         self.bezier_curve_marker.pose.orientation.w = 1.0
-        self.bezier_curve_marker.scale.x = 0.9
+        self.bezier_curve_marker.scale.x = 0.01
         self.bezier_curve_marker.scale.y = 0.1
         self.bezier_curve_marker.color.r = 1.0
         self.bezier_curve_marker.color.g = 0.0
@@ -128,7 +125,7 @@ class RepeatBezierPath():
 
         # Cria a pasta com data e horário e copia os arquivos
         # necessários para essa pasta
-        base_to_create_folder = "data/"
+        base_to_create_folder = "/home/fbotathome/fbot_ws/src/shark-mb-ros/data/"
         path_folder_to_copy = "/home/fbotathome/fbot_ws/src/shark-mb-ros/data/teleop_data.txt"
         self.folder_path = create_folder_with_datetime(base_to_create_folder)
         copy_file(path_folder_to_copy, self.folder_path)
@@ -140,12 +137,13 @@ class RepeatBezierPath():
 
         # Define número inicial de knots para a curva
         # de Bézier.
-        self.start_num_knots = 15
+        self.start_num_knots = 300
         
         # Retorna os pontos de controle para os pontos
         # enviados.
         ctrl_pts = BezierFitDemo(teleop_path_points, self.start_num_knots)
         ctrl_pts = ctrl_pts.T
+        print("ctrl_pts: ", ctrl_pts)
 
         # Gera curva de Bézier
         self.bezier_path_coords = generate_bezier_curve(ctrl_pts)
@@ -172,9 +170,11 @@ class RepeatBezierPath():
         self.bezier_few_points = 0.0
         self.new_max = self.points_per_paths
 
+        self.odom_sub = rospy.Subscriber('/hoverboard_velocity_controller/odom', Odometry, self.callback_odometry, queue_size=10)
+
         self.start_time = time.time()
 
-    def callback_odometry(self, msg : PoseWithCovarianceStamped):
+    def callback_odometry(self, msg : Odometry):
         self.x = msg.pose.pose.position.x
         self.y = msg.pose.pose.position.y
 
@@ -190,7 +190,7 @@ class RepeatBezierPath():
 
         self.coords_during_following.append(point)
 
-        # self.update()
+        self.update()
 
     def update(self):
         msg = Twist()
@@ -281,7 +281,6 @@ class RepeatBezierPath():
                 "tyre_radius": self.tyre_radius,
                 "max_steering": self.max_steering,
                 "min_steering": self.min_steering,
-                "tractor_wheelbase": self.tractor_wheelbase,
                 "tractor_velocity": self.tractor_velocity,
                 "points_per_paths": self.points_per_paths,
                 "dist_btw_points": self.dist_btw_points,
@@ -353,10 +352,11 @@ class RepeatBezierPath():
 
 if __name__ == '__main__':
     navigator = RepeatBezierPath()
-    msg : PoseWithCovarianceStamped = rospy.wait_for_message('/initialpose', PoseWithCovarianceStamped)
-    navigator.quaternion = msg.pose.pose.orientation
-    navigator.x = msg.pose.pose.position.x
-    navigator.y = msg.pose.pose.position.y
-    while True:
-        navigator.update()
-()
+    rospy.spin()
+    # rospy.spin()
+    # msg : PoseWithCovarianceStamped = rospy.wait_for_message('/initialpose', PoseWithCovarianceStamped)
+    # navigator.quaternion = msg.pose.pose.orientation
+    # navigator.x = msg.pose.pose.position.x
+    # navigator.y = msg.pose.pose.position.y
+    # while True:
+    #     navigator.update()

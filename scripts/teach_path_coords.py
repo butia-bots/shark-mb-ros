@@ -11,7 +11,7 @@ class TeachPathCoords:
     def __init__(self):
         rospy.init_node('teach_path_coords')
 
-        self.sub = rospy.Subscriber('/amcl_pose', PoseWithCovarianceStamped, self.callback)
+        self.sub = rospy.Subscriber('/robot_pose_ekf/odom_combined', PoseWithCovarianceStamped, self.callback)
         self.teleop_points = []
         self.file_path = '/home/fbotathome/fbot_ws/src/shark-mb-ros/data/teleop_data.txt'
 
