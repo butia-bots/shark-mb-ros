@@ -50,7 +50,7 @@ class RepeatBezierPath():
         self.tractor_velocity = 0.2
 
         # threshold_dist btw tractor and coord
-        self.threshold_dist = 0.25
+        self.threshold_dist = 0.55
 
         # Simulation
         self.dt = 0.01
