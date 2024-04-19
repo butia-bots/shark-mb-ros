@@ -170,11 +170,11 @@ class RepeatBezierPath():
         self.bezier_few_points = 0.0
         self.new_max = self.points_per_paths
 
-        self.odom_sub = rospy.Subscriber('/hoverboard_velocity_controller/odom', Odometry, self.callback_odometry, queue_size=10)
+        self.odom_sub = rospy.Subscriber('/robot_pose_ekf/odom_combined', PoseWithCovarianceStamped, self.callback_odometry, queue_size=10)
 
         self.start_time = time.time()
 
-    def callback_odometry(self, msg : Odometry):
+    def callback_odometry(self, msg : PoseWithCovarianceStamped):
         self.x = msg.pose.pose.position.x
         self.y = msg.pose.pose.position.y
 
