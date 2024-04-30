@@ -4,7 +4,7 @@
         <arg name="use_rviz" value="false" />
     </include>
 
-    <arg name="map" default="$(find shark-mb-ros)/maps/sala_fbot_2024_1.yaml" />
+    <arg name="map" default="$(find shark-mb-ros)/maps/new_lab.yaml" />
     <node name="map_server" pkg="map_server" type="map_server" args="$(arg map)"
         output="$(arg output)" />
 
@@ -15,7 +15,7 @@
     <arg name="cmd_vel" default="/hoverboard_velocity_controller/cmd_vel" />
     <arg name="odom" default="/odom" />
     <arg name="unknown_map" default="false" />
-    <arg name="observation_sources" default="ground_scan" />
+    <arg name="observation_sources" default="ground_scan back_scan" />
 
     <include file="$(find shark-mb-ros)/config/move_base.launch.xml">
         <arg name="cmd_vel_topic" value="$(arg cmd_vel)" />
