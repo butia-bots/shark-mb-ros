@@ -6,6 +6,10 @@
 
     <include file="$(find hoverboard_driver)/launch/hoverboard.launch"/>
 
+    <include file="$(find shark-mb-ros)/config/imu.launch"/>
+
+    <include file="$(find shark-mb-ros)/config/ekf.launch"/>
+
     <node pkg="urg_node" type="urg_node" name="urg_node" output="$(arg output)">
         <param name="frame_id" value="hokuyo_front_link"/>
         <param name="serial_port" value="/dev/tty_hokuyo_H1208745"/> 

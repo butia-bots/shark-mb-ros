@@ -13,7 +13,7 @@
     </include>
 
     <arg name="cmd_vel" default="/hoverboard_velocity_controller/cmd_vel" />
-    <arg name="odom" default="/odom" />
+    <arg name="odom" default="/robot_pose_ekf/odom_combined" />
     <arg name="unknown_map" default="false" />
     <arg name="observation_sources" default="ground_scan back_scan" />
 
