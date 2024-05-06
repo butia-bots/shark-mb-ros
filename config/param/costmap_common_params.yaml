@@ -2,10 +2,7 @@ max_obstacle_height: 1.9  # assume something like an arm is mounted on top of th
 
 # Obstacle Cost Shaping (http://wiki.ros.org/costmap_2d/hydro/inflation)
 # robot_radius: 0.35  # distance a circular robot should be clear of the obstacle (kobuki: 0.18)
-# footprint: [[0.75, 0.0], [0.30, -0.25], [-0.30, -0.25], [-0.30, 0.25], [0.30, 0.25]]   # if the robot is not circular
-#footprint: [[0.29, 0.0], [0.29, 0.075], [0.29, 0.075], [0.29, 0.29], [-0.29, 0.29], [-0.29, -0.29], [0.29, -0.29], [0.29, -0.075], [0.29, -0.075]]
-footprint: [[0.56, 0.0], [0.56, 0.075], [0.29, 0.075], [0.29, 0.24], [-0.29, 0.24], [-0.29, -0.24], [0.29, -0.24], [0.29, -0.075], [0.56, -0.075]]
-
+footprint: [[0.325, 0.275], [0.325, -0.275], [-0.325, -0.275], [-0.325, 0.275]]
 map_type: voxel
 
 obstacle_layer:
@@ -24,18 +21,29 @@ obstacle_layer:
   observation_sources: $(arg observation_sources)
   body_scan:
     data_type: LaserScan
-    topic: scan3
+    topic: scan
     marking: true   # whether the sensor will be used to add obstacle information to the costmap
     clearing: true  # whether the sensor will be used to clear obstacle information from the costmap
-    min_obstacle_height: 0.2
-    max_obstacle_height: 1.9
+    min_obstacle_height: 0.0
+    max_obstacle_height: 0.2
     observation_persistence: 0.0  # parametros sendo testados
-    raytrace_range: 8.0
-    obstacle_range: 3.5
-    inf_is_valid: true
+    obstacle_range: 1.5
+    raytrace_range: 4.0
+    inf_is_valid: true  
   ground_scan:
     data_type: LaserScan
-    topic: scan
+    topic: scan2
+    marking: true   # whether the sensor will be used to add obstacle information to the costmap
+    clearing: true  # whether the sensor will be used to clear obstacle information from the costmap
+    min_obstacle_height: 0.0
+    max_obstacle_height: 0.2
+    observation_persistence: 0.0  # parametros sendo testados
+    obstacle_range: 1.5
+    raytrace_range: 4.0
+    inf_is_valid: true  
+  back_scan:
+    data_type: LaserScan
+    topic: scan3
     marking: true   # whether the sensor will be used to add obstacle information to the costmap
     clearing: true  # whether the sensor will be used to clear obstacle information from the costmap
     min_obstacle_height: 0.0
