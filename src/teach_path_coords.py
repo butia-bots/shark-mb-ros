@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 
 import rospy
-from nav_msgs.msg import Odometry
-from geometry_msgs.msg import Point
 
+from nav_msgs.msg import Odometry
+from geometry_msgs.msg import Point, PoseWithCovarianceStamped
 from save_coords_to_file import save_coords_to_file
 
 class TeachPathCoords:
@@ -11,13 +11,13 @@ class TeachPathCoords:
     def __init__(self):
         rospy.init_node('teach_path_coords')
 
-        self.sub = rospy.Subscriber('/hoverboard_velocity_controller/odom', Odometry, self.callback)
+        self.sub = rospy.Subscriber('/amcl_pose', PoseWithCovarianceStamped, self.callback)
         self.teleop_points = []
         self.file_path = '/home/fbotathome/fbot_ws/src/shark-mb-ros/data/teleop_data.txt'
 
         print("Recording... Press CTRL + C to save coords.")
 
-    def callback(self, msg):
+    def callback(self, msg : PoseWithCovarianceStamped):
         x = msg.pose.pose.position.x
         y = msg.pose.pose.position.y
         point = Point()

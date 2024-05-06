@@ -3,7 +3,7 @@
     <include file="$(find shark-mb-ros)/launch/shark_v1.launch">
         <arg name="use_rviz" value="false" />
     </include>
-
+  
     <arg name="map" default="$(find shark-mb-ros)/maps/corredor.yaml" />
     <node name="map_server" pkg="map_server" type="map_server" args="$(arg map)"
         output="$(arg output)" />
@@ -11,6 +11,8 @@
     <include file="$(find shark-mb-ros)/config/amcl.launch.xml">
         <arg name="output" value="$(arg output)" />
     </include>
+
+    <include file="$(find shark-mb-ros)/config/ekf.launch.xml"/>
 
     <arg name="cmd_vel" default="/hoverboard_velocity_controller/cmd_vel" />
     <arg name="odom" default="/hoverboard_velocity_controller/odom" /> <!-- Must be a nav/ododmetry msg, not pose (dont use robot_pose_ekf/Combined)  -->
