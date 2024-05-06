@@ -4,9 +4,7 @@ Panels:
     Name: Displays
     Property Tree Widget:
       Expanded:
-        - /Global Options1
         - /TF1/Frames1
-        - /Map2
       Splitter Ratio: 0.5
     Tree Height: 347
   - Class: rviz/Selection
@@ -72,11 +70,25 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        hokuyo_link:
+        hokuyo_back_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
+        hokuyo_body_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        hokuyo_ground_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        imu_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
         left_wheel:
           Alpha: 1
           Show Axes: false
@@ -101,17 +113,23 @@ Visualization Manager:
       Frames:
         All Enabled: false
         base_footprint:
-          Value: true
+          Value: false
         base_link:
           Value: false
-        hokuyo_link:
+        hokuyo_back_link:
+          Value: false
+        hokuyo_body_link:
+          Value: false
+        hokuyo_ground_link:
+          Value: true
+        imu_link:
           Value: true
         left_wheel:
           Value: false
         map:
-          Value: true
+          Value: false
         odom:
-          Value: true
+          Value: false
         right_wheel:
           Value: false
       Marker Alpha: 1
@@ -125,7 +143,13 @@ Visualization Manager:
           odom:
             base_footprint:
               base_link:
-                hokuyo_link:
+                hokuyo_back_link:
+                  {}
+                hokuyo_body_link:
+                  {}
+                hokuyo_ground_link:
+                  {}
+                imu_link:
                   {}
                 left_wheel:
                   {}
@@ -154,7 +178,7 @@ Visualization Manager:
       Queue Size: 10
       Selectable: true
       Size (Pixels): 3
-      Size (m): 0.019999999552965164
+      Size (m): 0.02500000037252903
       Style: Flat Squares
       Topic: /scan
       Unreliable: false
@@ -249,7 +273,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 6.809569358825684
+      Distance: 2.808309316635132
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -257,17 +281,17 @@ Visualization Manager:
         Value: false
       Field of View: 0.7853981852531433
       Focal Point:
-        X: 0.40329983830451965
-        Y: -4.1862874031066895
-        Z: 0.017474178224802017
+        X: -0.9749647378921509
+        Y: -1.5442694425582886
+        Z: -0.3754516839981079
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.8303963541984558
+      Pitch: 0.4553965628147125
       Target Frame: <Fixed Frame>
-      Yaw: 2.0303940773010254
+      Yaw: 1.5953941345214844
     Saved: ~
 Window Geometry:
   Displays:
