@@ -16,11 +16,11 @@
         <param name="angle_min" type="double" value="-0.7" />
         <param name="angle_max" type="double" value="0.7" />
     </node> -->
+    
     <include file="$(find shark-mb-ros)/config/sick_lms_1xx.launch.xml">
         <arg name="output" value="$(arg output)"/>
     </include>
 
-    
     <node pkg="urg_node" type="urg_node" name="urg_node_ground" output="$(arg output)">
         <param name="frame_id" value="hokuyo_ground_link"/>
         <param name="serial_port" value="/dev/tty_hokuyo_H1208745"/> 

@@ -24,12 +24,12 @@ obstacle_layer:
     topic: scan
     marking: true   # whether the sensor will be used to add obstacle information to the costmap
     clearing: true  # whether the sensor will be used to clear obstacle information from the costmap
-    min_obstacle_height: 0.0
-    max_obstacle_height: 0.2
+    min_obstacle_height: 0.2
+    max_obstacle_height: 1.9
     observation_persistence: 0.0  # parametros sendo testados
-    obstacle_range: 1.5
-    raytrace_range: 4.0
-    inf_is_valid: true  
+    raytrace_range: 8.0
+    obstacle_range: 3.5
+    inf_is_valid: true
   ground_scan:
     data_type: LaserScan
     topic: scan2
@@ -52,17 +52,6 @@ obstacle_layer:
     obstacle_range: 1.5
     raytrace_range: 4.0
     inf_is_valid: true
-  ground_scan_back:
-    data_type: LaserScan
-    topic: scan2
-    marking: true   # whether the sensor will be used to add obstacle information to the costmap
-    clearing: true  # whether the sensor will be used to clear obstacle information from the costmap
-    min_obstacle_height: 0.0
-    max_obstacle_height: 0.2
-    observation_persistence: 0.0  # parametros sendo testados
-    obstacle_range: 1.5
-    raytrace_range: 4.0
-    inf_is_valid: true  
   header_scan:
     data_type: PointCloud2
     topic: butia_vision/bvb/points         # PointCloud2 topic from kinect
