@@ -1,8 +1,10 @@
 <launch>
     <arg name="output" default="screen"/>
 
+    <arg name="unknown_map" default="True"/>
     <include file="$(find shark-mb-ros)/launch/shark_v1.launch">
         <arg name="use_rviz" value="false"/>
+        <arg name="unknown_map" value="$(arg unknown_map)"/>
     </include>
 
     <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping" output="$(arg output)">
