@@ -19,6 +19,11 @@
   <xacro:property name="dorso_width" value="0.337" />
   <xacro:property name="dorso_len" value="0.28" />
   <xacro:property name="dorso_height" value="0.8" />
+
+  <xacro:property name="arm_support_width" value="0.34" />
+  <xacro:property name="arm_support_len" value="0.33" />
+  <xacro:property name="arm_support_height" value="0.04" />
+  <xacro:property name="arm_z_position" value="0.51" />
   
   <!-- <xacro:property name="caster_wheel_radius" value="0.0375"/>
   <xacro:property name="caster_wheel_joint_offset" value="0.12"/> -->
@@ -83,7 +88,7 @@
 
   <joint name="base_link_joint" type="fixed">
     <origin xyz="0 0 ${base_height/2 + caster_height}" rpy="0 0 0" />
-    <parent link="base_footprint" />
+    <parent link="base_footprint" /> 
     <child link="base_link" />
   </joint>
 
@@ -146,7 +151,7 @@
 
   <xacro:sick_lms1xx />
 
-  <xacro:macro name="dorso" params="depth width height xyz rpy parent">
+  <xacro:macro name="dorso" params="parent depth width height xyz rpy">
     <link name="dorso_link">
       <xacro:box_inertia m="1" w="${width}" h="${height}" d="0.01" />
       <visual>
@@ -161,10 +166,33 @@
         </geometry>
       </collision>
     </link>
-
     <joint name="dorso_joint" type="fixed">
         <parent link="${parent}"/>
         <child link="dorso_link"/>
+        <origin xyz="${xyz}" rpy="${rpy}"/>
+    </joint>
+  </xacro:macro>
+
+
+    <!--32,5-->
+  <xacro:macro name="arm_support" params="parent width height depth xyz rpy">
+    <link name="arm_support_link">
+      <xacro:box_inertia m="1" w="${width}" h="${height}" d="0.01" />
+      <visual>
+        <material name="lightgray" />
+        <geometry>
+          <box size="${depth} ${width} ${height}" />
+        </geometry>
+      </visual>
+      <collision>
+        <geometry>
+          <box size="${depth} ${width} ${height}" />
+        </geometry>
+      </collision>
+    </link>
+    <joint name="arm_support_joint" type="fixed">
+        <parent link="${parent}"/>
+        <child link="arm_support_link"/>
         <origin xyz="${xyz}" rpy="${rpy}"/>
     </joint>
   </xacro:macro>
@@ -186,7 +214,7 @@
   </xacro:realsense_camera>
 
   <xacro:dorso parent="base_link" depth="${dorso_len}" width="${dorso_width}" height="${dorso_height}" xyz="${-base_len/2 + (dorso_len/2)} 0 ${(base_height/2) + (dorso_height/2)}" rpy="0 0 0"/>
-
+  <xacro:arm_support parent="dorso_link" width="${arm_support_width}" height="${arm_support_height}" depth="${arm_support_len}" xyz="${dorso_len/2 + arm_support_len/2} 0 ${-dorso_height/2 + arm_z_position}" rpy="0 0 0"/>
   <xacro:sensor_hokuyo parent="base_link" xyz="${base_len/2 + 0.017 + 0.024} 0 ${0.02 - base_height/2}" rpy="3.14 0 0" name="ground"/>
   <xacro:sensor_hokuyo parent="base_link" xyz="${-base_len/2 - 0.017 - 0.024} 0 ${0.02 - base_height/2}" rpy="3.14 0 3.14" name="back"/>
   <xacro:imu parent="base_link" xyz="${base_len/2 + 0.0625} 0 ${0.02 - base_height/2}" rpy="0 0 0" />
