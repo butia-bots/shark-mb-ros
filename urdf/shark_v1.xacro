@@ -155,15 +155,17 @@
     <link name="dorso_link">
       <xacro:box_inertia m="1" w="${width}" h="${height}" d="0.01" />
       <visual>
+        <origin xyz="0.0 0.0 ${height/2}"/>
         <material name="lightgray" />
         <geometry>
           <box size="${depth} ${width} ${height}" />
-        </geometry>
-      </visual>
-      <collision>
-        <geometry>
-          <box size="${depth} ${width} ${height}" />
-        </geometry>
+          </geometry>
+          </visual>
+          <collision>
+            <origin xyz="0.0 0.0 ${height/2}"/>
+            <geometry>
+              <box size="${depth} ${width} ${height}" />
+              </geometry>
       </collision>
     </link>
     <joint name="dorso_joint" type="fixed">
@@ -206,15 +208,15 @@
   <joint name="dorso_head" type="fixed">
     <parent link="dorso_link" />
     <child link="head_root" />
-    <origin xyz="0 0 ${dorso_height/2 + 0.04}" rpy="0 0 0" />
+    <origin xyz="0 0 ${dorso_height + 0.04}" rpy="0 0 0" />
   </joint>
 
   <xacro:realsense_camera name="camera" parent="dorso_link">
-    <origin xyz="${dorso_len/2 - 0.063} 0 ${dorso_height/2}" rpy="0 0 0" />
+    <origin xyz="${dorso_len/2 - 0.063} 0 ${dorso_height}" rpy="0 0 0" />
   </xacro:realsense_camera>
 
-  <xacro:dorso parent="base_link" depth="${dorso_len}" width="${dorso_width}" height="${dorso_height}" xyz="${-base_len/2 + (dorso_len/2)} 0 ${(base_height/2) + (dorso_height/2)}" rpy="0 0 0"/>
-  <xacro:arm_support parent="dorso_link" width="${arm_support_width}" height="${arm_support_height}" depth="${arm_support_len}" xyz="${dorso_len/2 + arm_support_len/2} 0 ${-dorso_height/2 + arm_z_position}" rpy="0 0 0"/>
+  <xacro:dorso parent="base_link" depth="${dorso_len}" width="${dorso_width}" height="${dorso_height}" xyz="${-base_len/2 + (dorso_len/2)} 0 ${base_height/2}" rpy="0 0 0"/>
+  <xacro:arm_support parent="dorso_link" width="${arm_support_width}" height="${arm_support_height}" depth="${arm_support_len}" xyz="${dorso_len/2 + arm_support_len/2} 0 ${arm_z_position}" rpy="0 0 0"/>
   <xacro:sensor_hokuyo parent="base_link" xyz="${base_len/2 + 0.017 + 0.024} 0 ${0.02 - base_height/2}" rpy="3.14 0 0" name="ground"/>
   <xacro:sensor_hokuyo parent="base_link" xyz="${-base_len/2 - 0.017 - 0.024} 0 ${0.02 - base_height/2}" rpy="3.14 0 3.14" name="back"/>
   <xacro:imu parent="base_link" xyz="${base_len/2 + 0.0625} 0 ${0.02 - base_height/2}" rpy="0 0 0" />

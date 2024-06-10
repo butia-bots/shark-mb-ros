@@ -2,7 +2,7 @@
     <arg name="output" default="screen"/>
     <arg name="use_rviz" default="true"/>
 
-    <include file="$(find shark-mb-ros)/launch/shark_v1_description.launch"/>
+    <!-- <include file="$(find shark-mb-ros)/launch/shark_v1_description.launch"/> -->
 
     <include file="$(find hoverboard_driver)/launch/hoverboard.launch"/>
   
