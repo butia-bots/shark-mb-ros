@@ -10,6 +10,7 @@
   <param name="vo_used" value="false"/>
 
   <remap from="odom" to="hoverboard_velocity_controller/odom"/>
+  <remap from="imu_data" to="/imu/data"/>
   
 </node>
 

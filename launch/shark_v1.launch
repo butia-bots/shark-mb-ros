@@ -2,7 +2,7 @@
     <arg name="output" default="screen"/>
     <arg name="use_rviz" default="true"/>
 
-    <include file="$(find shark-mb-ros)/launch/shark_v1_description.launch"/>
+    <!-- <include file="$(find shark-mb-ros)/launch/shark_v1_description.launch"/> -->
 
     <include file="$(find hoverboard_driver)/launch/hoverboard.launch"/>
   
@@ -23,7 +23,7 @@
 
     <node pkg="urg_node" type="urg_node" name="urg_node_ground" output="$(arg output)">
         <param name="frame_id" value="hokuyo_ground_link"/>
-        <param name="serial_port" value="/dev/tty_hokuyo_H1208745"/> 
+        <param name="serial_port" value="/dev/sensors/hokuyo_H1208745"/> 
         <param name="angle_min" type="double" value="-0.7" />
         <param name="angle_max" type="double" value="0.7" />
         <remap from="/scan" to="/scan2"/>
@@ -31,7 +31,7 @@
 
     <node pkg="urg_node" type="urg_node" name="urg_node_back" output="$(arg output)">
         <param name="frame_id" value="hokuyo_back_link"/>
-        <param name="serial_port" value="/dev/tty_hokuyo_H1309411"/> 
+        <param name="serial_port" value="/dev/sensors/hokuyo_H1309411"/> 
         <param name="angle_min" type="double" value="-0.7" />
         <param name="angle_max" type="double" value="0.7" />
         <remap from="/scan" to="/scan3"/>

@@ -1,5 +1,6 @@
 <launch>
     <arg name="output" default="screen" />
+    <arg name="use_rviz" default="true"/>
     <include file="$(find shark-mb-ros)/launch/shark_v1.launch">
         <arg name="use_rviz" value="false" />
     </include>
@@ -26,5 +27,5 @@
     </include>
 
     <node name="rviz" pkg="rviz" type="rviz" args="-d $(find shark-mb-ros)/rviz/slam.rviz"
-        output="$(arg output)" />
+        output="$(arg output)" if="$(arg use_rviz)"/>
 </launch>
