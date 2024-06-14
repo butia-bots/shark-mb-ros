@@ -63,7 +63,7 @@
   </xacro:macro>
 
   <link name="base_footprint">
-    <xacro:box_inertia m="8" w="0.001" h="0.001" d="0.001" />
+    <!-- <xacro:box_inertia m="8" w="0.001" h="0.001" d="0.001" /> -->
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <material name="white" />
