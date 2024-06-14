@@ -6,6 +6,9 @@
   <xacro:include filename="$(find doris_sensors_description)/urdf/realsense_camera.urdf.xacro" />
   <xacro:include filename="$(find hector_sensors_description)/urdf/realsense_d435_camera.urdf.xacro" />
   <xacro:include filename="$(find doris_head_description)/urdf/doris_head.urdf" />
+  <xacro:macro name="wx200" params="parent 10 10 10 rpy name">
+    <xacro:include filename="$(find interbotix_xsarm_descriptions)/urdf/mobile_wx200.urdf.xacro" />
+  </xacro:macro>
 
   <xacro:property name="base_width" value="0.335" />
   <xacro:property name="base_len" value="0.5" />
@@ -175,7 +178,6 @@
     </joint>
   </xacro:macro>
 
-
     <!--32,5-->
   <xacro:macro name="arm_support" params="parent width height depth xyz rpy">
     <link name="arm_support_link">
@@ -220,4 +222,5 @@
   <xacro:sensor_hokuyo parent="base_link" xyz="${base_len/2 + 0.017 + 0.024} 0 ${0.02 - base_height/2}" rpy="3.14 0 0" name="ground"/>
   <xacro:sensor_hokuyo parent="base_link" xyz="${-base_len/2 - 0.017 - 0.024} 0 ${0.02 - base_height/2}" rpy="3.14 0 3.14" name="back"/>
   <xacro:imu parent="base_link" xyz="${base_len/2 + 0.0625} 0 ${0.02 - base_height/2}" rpy="0 0 0" />
+  <xacro:wx200 parent="dorso_link" xyz="10 10 10" rpy="0 0 0" name="wx200"/>
 </robot>
