@@ -46,9 +46,9 @@
 
     <remap from="/cmd_vel" to="/hoverboard_velocity_controller/cmd_vel"/>
 
-    <include file="$(find teleop_twist_joy)/launch/teleop.launch">
+    <!-- <include file="$(find teleop_twist_joy)/launch/teleop.launch">
         <arg name="joy_config" value="atk3"/>
-    </include>
+    </include> -->
     
     <group if="$(arg use_rviz)">
         <node name="rviz" pkg="rviz" type="rviz" args="-d $(find shark-mb-ros)/rviz/base.rviz" output="$(arg output)"/>
