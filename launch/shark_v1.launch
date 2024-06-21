@@ -2,7 +2,7 @@
     <arg name="output" default="screen"/>
     <arg name="use_rviz" default="true"/>
 
-    <include file="$(find shark-mb-ros)/launch/shark_v1_description.launch"/>
+    <!-- <include file="$(find shark-mb-ros)/launch/shark_v1_description.launch"/> -->
 
     <include file="$(find hoverboard_driver)/launch/hoverboard.launch"/>
   
@@ -10,16 +10,20 @@
 
     <include file="$(find shark-mb-ros)/config/ekf.launch"/>
 
-    <node pkg="urg_node" type="urg_node" name="urg_node" output="$(arg output)">
+    <!-- <node pkg="urg_node" type="urg_node" name="urg_node" output="$(arg output)">
         <param name="frame_id" value="hokuyo_body_link"/>
         <param name="serial_port" value="/dev/tty_hokuyo_H1309421"/> 
         <param name="angle_min" type="double" value="-0.7" />
         <param name="angle_max" type="double" value="0.7" />
-    </node>
+    </node> -->
     
+    <include file="$(find shark-mb-ros)/config/sick_lms_1xx.launch.xml">
+        <arg name="output" value="$(arg output)"/>
+    </include>
+
     <node pkg="urg_node" type="urg_node" name="urg_node_ground" output="$(arg output)">
         <param name="frame_id" value="hokuyo_ground_link"/>
-        <param name="serial_port" value="/dev/tty_hokuyo_H1208745"/> 
+        <param name="serial_port" value="/dev/sensors/hokuyo_H1208745"/> 
         <param name="angle_min" type="double" value="-0.7" />
         <param name="angle_max" type="double" value="0.7" />
         <remap from="/scan" to="/scan2"/>
@@ -27,7 +31,7 @@
 
     <node pkg="urg_node" type="urg_node" name="urg_node_back" output="$(arg output)">
         <param name="frame_id" value="hokuyo_back_link"/>
-        <param name="serial_port" value="/dev/tty_hokuyo_H1309411"/> 
+        <param name="serial_port" value="/dev/sensors/hokuyo_H1309411"/> 
         <param name="angle_min" type="double" value="-0.7" />
         <param name="angle_max" type="double" value="0.7" />
         <remap from="/scan" to="/scan3"/>
@@ -42,9 +46,9 @@
 
     <remap from="/cmd_vel" to="/hoverboard_velocity_controller/cmd_vel"/>
 
-    <include file="$(find teleop_twist_joy)/launch/teleop.launch">
+    <!-- <include file="$(find teleop_twist_joy)/launch/teleop.launch">
         <arg name="joy_config" value="atk3"/>
-    </include>
+    </include> -->
     
     <group if="$(arg use_rviz)">
         <node name="rviz" pkg="rviz" type="rviz" args="-d $(find shark-mb-ros)/rviz/base.rviz" output="$(arg output)"/>
