@@ -1,5 +1,9 @@
 <launch>
     <arg name="output" default="screen"/>
+    <arg name="cmd_vel" default="/hoverboard_velocity_controller/cmd_vel" />
+    <arg name="odom" default="/hoverboard_velocity_controller/odom" /> <!-- Must be a nav/ododmetry msg, not pose (dont use robot_pose_ekf/Combined)  -->
+    <arg name="unknown_map" default="true" />
+    <arg name="observation_sources" default="body_scan ground_scan" />
 
     <include file="$(find shark-mb-ros)/launch/shark_v1.launch">
         <arg name="use_rviz" value="false"/>
@@ -15,11 +19,6 @@
         <param name="angularUpdate" value="0.5"/>
         <param name="maxRange" value="12.0"/>
     </node>
-
-    <arg name="cmd_vel" default="/hoverboard_velocity_controller/cmd_vel" />
-    <arg name="odom" default="/hoverboard_velocity_controller/odom" /> <!-- Must be a nav/ododmetry msg, not pose (dont use robot_pose_ekf/Combined)  -->
-    <arg name="unknown_map" default="false" />
-    <arg name="observation_sources" default="body_scan ground_scan back_scan" />
 
     <include file="$(find shark-mb-ros)/config/move_base.launch.xml">
         <arg name="cmd_vel_topic" value="$(arg cmd_vel)" />
