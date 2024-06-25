@@ -3,6 +3,6 @@
   <param name="robot_description" command="$(find xacro)/xacro --inorder $(find shark-mb-ros)/urdf/shark_v1.xacro arm_z_position:=$(arg arm_z_position)"/>
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
   <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
-    <param name="source_list">["doris_head/joint_states","base/joint_states"]</param>
+    <rosparam param="source_list">["doris_head/joint_states"]</rosparam>
   </node>
 </launch>
