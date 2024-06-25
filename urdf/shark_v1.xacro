@@ -6,7 +6,7 @@
   <xacro:include filename="$(find doris_sensors_description)/urdf/realsense_camera.urdf.xacro" />
   <xacro:include filename="$(find hector_sensors_description)/urdf/realsense_d435_camera.urdf.xacro" />
   <xacro:include filename="$(find doris_head_description)/urdf/doris_head.urdf" />
-  <xacro:include filename="$(find interbotix_xsarm_descriptions)/urdf/boris_arm.xacro" />
+  <xacro:include filename="$(find interbotix_xsarm_descriptions)/urdf/wx200.urdf.xacro" />
   
 
   <xacro:property name="base_width" value="0.335" />
