@@ -28,5 +28,4 @@
         <arg name="observation_sources" value="$(arg observation_sources)" />
     </include>
     
-    <!-- <node name="rviz" pkg="rviz" type="rviz" args="-d $(find shark-mb-ros)/rviz/slam.rviz" output="$(arg output)"/> -->
 </launch>
