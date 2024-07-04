@@ -110,7 +110,7 @@
         <material name="darkgray" />
         <origin xyz="0 0 0" rpy="${pi/2} 0 0" />
         <geometry>
-          <cylinder radius="${wheel_radius}" length="0.05" />
+          <cylinder radius="${wheel_radius}" length="0.1" />
         </geometry>
       </visual>
       <collision>
