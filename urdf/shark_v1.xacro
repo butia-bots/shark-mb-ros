@@ -8,7 +8,7 @@
   <xacro:include filename="$(find doris_head_description)/urdf/doris_head.urdf" />
   <xacro:include filename="$(find interbotix_xsarm_descriptions)/urdf/wx200.urdf.xacro" />
 
-  <xacro:arg name="arm_z_position" default="0.51"/>
+  <xacro:arg name="arm_z_position" default="0.48"/>
   
 
   <xacro:property name="base_width" value="0.335" />
