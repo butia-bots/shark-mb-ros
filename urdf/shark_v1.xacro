@@ -215,7 +215,7 @@
   </joint>
 
   <xacro:realsense_camera name="camera" parent="dorso_link">
-    <origin xyz="${dorso_len/2 - 0.063} 0 ${dorso_height}" rpy="0 0 0" />
+    <origin xyz="${dorso_len/2 + 0.05} 0 ${dorso_height + 0.053}" rpy="0 0 0" />
   </xacro:realsense_camera>
 
   <xacro:dorso parent="base_link" depth="${dorso_len}" width="${dorso_width}" height="${dorso_height}" xyz="${-base_len/2 + (dorso_len/2)} 0 ${base_height/2}" rpy="0 0 0"/>
