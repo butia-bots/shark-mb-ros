@@ -10,7 +10,7 @@
         <arg name="use_rviz" value="false" />
     </include>
   
-    <arg name="map" default="$(find shark-mb-ros)/maps/corredor_itec.yaml" />
+    <arg name="map" default="$(find shark-mb-ros)/maps/manipulation.yaml" />
     <node name="map_server" pkg="map_server" type="map_server" args="$(arg map)"
         output="$(arg output)" />
 
