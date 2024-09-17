@@ -18,7 +18,6 @@
         <arg name="output" value="$(arg output)" />
     </include>
 
-
     <include file="$(find shark-mb-ros)/config/move_base.launch.xml">
         <arg name="cmd_vel_topic" value="$(arg cmd_vel)" />
         <arg name="odom_topic" value="$(arg odom)" />
