@@ -1,7 +1,10 @@
 <launch>
     <arg name="output" default="screen"/>
 
-    <include file="$(find shark-mb-ros)/launch/shark_v1_description.launch"/>
+    <include file="$(find shark-mb-ros)/launch/shark_v1_description.launch">
+        <arg name="arm_z_position" value="0"/>
+
+        </include>
     <include file="$(find shark-mb-ros)/launch/shark_v1.launch">
         <arg name="use_rviz" value="false"/>
     </include>
