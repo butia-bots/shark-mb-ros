@@ -26,7 +26,7 @@
       <param name="frame_id" type="str" value="sick_link" />
     	<param name="use_binary_protocol" type="bool" value="False" />
 	<param name="scanner_type" type="string" value="sick_lms_1xx"/>
-	<param name="range_max" type="double" value="25.0" />
+	<param name="range_max" type="double" value="20.0" />
 
         <param name="hostname" type="string" value="$(arg hostname)" />
 	<param name="port" type="string" value="2111" />
