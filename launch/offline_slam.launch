@@ -9,6 +9,8 @@
         <arg name="use_rviz" value="false"/>
     </include>
 
+    <include file="$(find joy2twist)/launch/gamepad_controller.launch"/> 
+
     <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping" output="$(arg output)">
         <param name="xmin" value="-1.0"/>
         <param name="ymin" value="-1.0"/>
